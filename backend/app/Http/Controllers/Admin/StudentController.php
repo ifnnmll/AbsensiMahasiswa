@@ -17,12 +17,27 @@ class StudentController extends Controller
 
     public function create()
     {
-        //
+        return view('admin.students.create');
     }
 
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'nim' => 'required|unique:students',
+        'name' => 'required',
+        'class' => 'required',
+        'major' => 'required',
+    ]);
+
+    Student::create([
+        'nim' => $request->nim,
+        'name' => $request->name,
+        'class' => $request->class,
+        'major' => $request->major,
+    ]);
+
+    return redirect('/admin/students')
+        ->with('success', 'Mahasiswa berhasil ditambahkan');
     }
 
     public function show(string $id)
